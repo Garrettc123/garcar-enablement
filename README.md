@@ -1,19 +1,34 @@
-# Garcar Enablement System
+# Garcar Enablement System — Full Stack
 
 Full-scale runtime that enables all built Garcar products and repos under the verified RHNS Kernel.
 
-## What it is
+## Stack layers
 
-- **Substrate**: the stdlib-only RHNS Kernel (planner, authority policy, idempotent ToolProxy, tiered Memory, Verifier, hash-chained Ledger). Tests pass.
-- **Product registry**: RHNS-Architecture, apex-revenue-system, nwu-protocol, garcar-star, revenue-orchestrator, garcar-landing, BioForge Revenue organ.
-- **Connector adapters**: safe stubs for GitHub issues, HubSpot notes, Stripe payment links (LLA-47 etc.), Gmail drafts, proof append. Swap for live clients.
-- **Policy + Ledger**: every action is gated and hash-chained. EXTERNAL/FINANCIAL tools require explicit approval. No unauthorized sends or charges.
-- **Walking skeleton**: list products → lookup → CRM note → prepare GitHub issue → proof append → (approval) draft email → (approval) prepare LLA-47 link.
+| Layer | Owns |
+|---|---|
+| RHNS Kernel | planner, policy, ToolProxy, Memory, Verifier, Ledger |
+| Enablement | product registry, LLMProposer, SKU surface, approval gate |
+| Connector Plane | GitHub, HubSpot, Stripe, Gmail, Notion, Linear (safe stubs → live) |
+| BioForge Organs | Revenue spine (intake → fulfill), CRM, Outreach, Billing, Fulfillment |
+| Operator Surface | CLI (`status`, `run`, `spine`, `products`, `skus`) |
+
+## What is live
+
+- Repo: https://github.com/Garrettc123/garcar-enablement
+- Products: RHNS-Architecture, apex-revenue-system, nwu-protocol, garcar-star, revenue-orchestrator, garcar-landing, BioForge Revenue
+- SKUs: LLA-47, AI-AUDIT-299, ENT-AUDIT-3500, MARS-750, MARS-1500, GROWTH-1497
+- Policy holds EXTERNAL/FINANCIAL behind approval. Ledger verifies.
 
 ## Run
 
 ```bash
-python -c "from enablement import run_enablement; print(run_enablement('enable-1'))"
+python cli.py status
+python cli.py run --task full-1
+python cli.py spine
 ```
 
-Ledger verifies. Policy holds. Products are registered and can be planned against.
+## Revenue spine (BioForge)
+
+lead_intake → enrich → outreach → proposal → checkout → crm_sync → fulfill → report
+
+Outreach, checkout, crm_sync, and fulfill require approval (CMC commit). No silent money or reputation hops.
