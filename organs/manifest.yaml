@@ -1,0 +1,7 @@
+organs:
+  - name: revenue
+    family: Revenue
+    purpose: "Close the walking-skeleton loop from lead intake through fulfillment under RHNS CMC commit."
+    ports: [lead_intake, enrich, outreach, proposal, checkout, crm_sync, fulfill, report]
+    rhns: {planner: RGT+HRM-H, gate: CMC, commit_required: [outreach, checkout, crm_sync, fulfill]}
+    sku: LLA-47
